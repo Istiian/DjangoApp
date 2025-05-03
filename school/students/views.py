@@ -8,6 +8,7 @@ import os
 from django.conf import settings
 import traceback
 import pandas as pd
+from django.contrib import messages 
 
 
 gender_encoder = joblib.load(os.path.join(settings.BASE_DIR, 'school', 'AI_models', 'gender_encoder.joblib'))
@@ -24,6 +25,7 @@ def student_create(request):
     form = StudentForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
         form.save()
+        messages.success(request, "Student Created Successfully!") 
         return redirect('student_list')
     return render(request, 'students/student_form.html', {'form': form})
 
@@ -32,6 +34,7 @@ def student_update(request, pk):
     form = StudentForm(request.POST or None, instance=student)
     if request.method == 'POST' and form.is_valid():
         form.save()
+        messages.success(request, "Student Information is Successfully Updated!") 
         return redirect('student_list')
 
     return render(request, 'students/student_form.html', {'form': form})
@@ -40,6 +43,7 @@ def student_delete(request, pk):
     student = get_object_or_404(Student, pk=pk)  # ✅ Ensure this only works with valid pk
     if request.method == 'POST':
         student.delete()
+        messages.success(request, "Student Deleted Successfully!") 
         return redirect('student_list')
     return render(request, 'students/student_confirm_delete.html', {'student': student})
 

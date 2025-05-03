@@ -1,6 +1,7 @@
 const age = document.getElementById("id_age");
 const gender = document.getElementById("id_gender");
 const interests = document.querySelectorAll('input[type="checkbox"][name="interest"]');
+const course = document.getElementById("id_course");
 let checked = document.querySelectorAll('input[type="checkbox"][name="interest"]:checked');
 const courseName = document.getElementById("course-name");
 const courseDisplay = document.getElementById("course-display");
@@ -14,7 +15,8 @@ gender.addEventListener("change", function () {
 });
 
 window.addEventListener('load', (event) => {
-    PredictCourse();
+    // PredictCourse();
+    checkCourse();
 });
 
 interests.forEach((interest) => {
@@ -29,8 +31,16 @@ interests.forEach((interest) => {
     });
 })
 
-
-
+course.addEventListener("change", checkCourse);
+function checkCourse(){
+    if (course.value === "") {
+        courseDisplay.classList.add("d-none");
+        courseDisplay.classList.remove("d-block");
+    } else {
+        courseDisplay.classList.remove("d-none");
+        courseDisplay.classList.add("d-block");
+    }
+}
 function InterestValue(){
     let checked = document.querySelectorAll('input[type="checkbox"][name="interest"]:checked');
     let values = [];
@@ -40,8 +50,8 @@ function InterestValue(){
     return values.join(",");
 }
 
-
 function PredictCourse() { 
+    
     console.log("PredictCourse function was called!");
     const checked = document.querySelectorAll('input[name="interest"]:checked');
 
@@ -65,11 +75,11 @@ function PredictCourse() {
         })
         .then(data => {
             if (data && data.course) {
-                courseName.innerHTML = data.course;
-                courseDisplay.classList.remove("d-none");
-                courseDisplay.classList.add("d-block");
-
-                
+                if(course.value === ""){
+                    courseName.innerHTML = data.course;
+                    courseDisplay.classList.remove("d-none");
+                    courseDisplay.classList.add("d-block");
+                }
             } else {
                 alert("No course found or invalid response.");
             }
