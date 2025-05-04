@@ -16,7 +16,7 @@ gender.addEventListener("change", function () {
 
 window.addEventListener('load', (event) => {
     // PredictCourse();
-    checkCourse();
+    // checkCourse();
 });
 
 interests.forEach((interest) => {
@@ -75,11 +75,11 @@ function PredictCourse() {
         })
         .then(data => {
             if (data && data.course) {
-                if(course.value === ""){
+                // if(course.value === ""){
                     courseName.innerHTML = data.course;
                     courseDisplay.classList.remove("d-none");
                     courseDisplay.classList.add("d-block");
-                }
+                // }
             } else {
                 alert("No course found or invalid response.");
             }
